@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Users ───────────────────────────────────────────────
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  conversations Conversation[]
+
+  @@map("users")
+}
+
+// ─── Characters (seeded, not user-created) ───────────────
+model Character {
+  id           String  @id @default(uuid())
+  name         String
+  slug         String  @unique
+  bio          String
+  systemPrompt String  @map("system_prompt")
+  imageUrl     String? @map("image_url")
+  accentColor  String? @map("accent_color")
+
+  conversations Conversation[]
+
+  @@map("characters")
+}
+
+// ─── Conversations (one per user per character) ──────────
+model Conversation {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  characterId String   @map("character_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  messages  Message[]
+
+  @@unique([userId, characterId])
+  @@map("conversations")
+}
+
+// ─── Messages ────────────────────────────────────────────
+model Message {
+  id             String   @id @default(uuid())
+  conversationId String   @map("conversation_id")
+  role           String   // 'user' or 'assistant'
+  content        String
+  provider       String?  // 'anthropic' or 'openai'
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
