@@ -162,6 +162,11 @@ This is Taylor's learning project. Do NOT just write everything silently. Instea
 - Let Taylor make decisions — present options and ask
 - After writing code, walk through it and ask if it makes sense
 
+## Git Conventions
+
+- **NEVER add `Co-Authored-By` lines or any AI/Claude attribution to commits.** Taylor is the sole author.
+- Do not add Claude as a contributor, author, or co-author anywhere in the project.
+
 ## Code Conventions
 
 - Use React Router's `<Form>` component for mutations (not raw `<form>`)
