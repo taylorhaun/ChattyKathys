@@ -1,3 +1,9 @@
+import { config } from "dotenv";
+import { resolve } from "path";
+
+// Vite clears non-VITE_ env vars to empty strings in SSR — override them
+config({ path: resolve(process.cwd(), ".env"), override: true });
+
 import Anthropic from "@anthropic-ai/sdk";
 import OpenAI from "openai";
 
