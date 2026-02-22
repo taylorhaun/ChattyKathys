@@ -166,16 +166,9 @@ export default function ChatPage() {
   );
 
   return (
-    <div className="flex h-screen flex-col bg-gray-950">
+    <div className="flex h-full flex-col">
       {/* Header */}
       <header className="flex items-center gap-3 border-b border-gray-800 px-4 py-3">
-        <a
-          href="/"
-          className="text-gray-400 hover:text-white"
-          aria-label="Back to home"
-        >
-          &larr;
-        </a>
         <div
           className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white"
           style={{ backgroundColor: character.accentColor ?? "#666" }}
